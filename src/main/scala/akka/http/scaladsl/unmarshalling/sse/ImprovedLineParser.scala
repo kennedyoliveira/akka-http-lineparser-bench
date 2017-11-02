@@ -49,10 +49,10 @@ private final class ImprovedLineParser(maxLineSize: Int) extends GraphStage[Flow
             bs(at) match {
               // Lookahead for LF after CR
               case `cr` if at < bs.length - 1 && bs(at + 1) == lf ⇒
-                parseLines(bs, at + 2, at + 2, bs.slice(from, at).utf8String :: parsedLines)
+                parseLines(bs, at + 2, at + 2, parsedLines :+ bs.slice(from, at).utf8String)
               // a CR or LF means we found a new slice
               case `cr` | `lf` ⇒
-                parseLines(bs, at + 1, at + 1, bs.slice(from, at).utf8String :: parsedLines)
+                parseLines(bs, at + 1, at + 1, parsedLines :+ bs.slice(from, at).utf8String)
               // for other input, simply advance
               case _ ⇒
                 parseLines(bs, from, at + 1, parsedLines)

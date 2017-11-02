@@ -10,6 +10,7 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{FileIO, Keep, RunnableGraph, Sink, Source}
 import akka.util.ByteString
 import org.openjdk.jmh.annotations._
+import org.openjdk.jmh.profile.StackProfiler
 import org.openjdk.jmh.runner.Runner
 import org.openjdk.jmh.runner.options.OptionsBuilder
 
@@ -95,6 +96,7 @@ object LineParserBenchmark {
     val options = new OptionsBuilder()
       .include(classOf[LineParserBenchmark].getName)
       .addProfiler(classOf[jmh.extras.JFR], s"""--dir=$jfr""")
+      .addProfiler(classOf[StackProfiler])
       .build()
 
     new Runner(options).run()
